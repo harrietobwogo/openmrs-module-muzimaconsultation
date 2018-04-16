@@ -18,8 +18,8 @@
 		<property name="receiver" type="java.lang.String" column="receiver" length="100"/>
 		<property name="subject" type="java.lang.String" column="subject" length="100"/>
 		<property name="body" type="java.lang.String" column="body" length="100"/>
-		<property name="senderDate" type="java.lang.String" column="senderDate" length="38"/>
-		<property name="senderTime" type="java.lang.String" column="sentTime" length="38"/>
+		<property name="senderDate" type="java.lang.String" column="senderDate" length="100"/>
+		<property name="senderTime" type="java.lang.String" column="sentTime" length="100"/>
 		<property name="voided" type="java.lang.Boolean" column="voided"/>
 	
 	</class>

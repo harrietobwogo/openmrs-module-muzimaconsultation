@@ -1,22 +1,24 @@
 package org.openmrs.module.muzimaconsultation.api.model;
 
 import org.openmrs.BaseOpenmrsData;
-import org.openmrs.OpenmrsData;
+import org.openmrs.Person;
 
-public class Message extends BaseOpenmrsData {
+import java.io.Serializable;
+
+public class Message extends BaseOpenmrsData implements Serializable {
 
     private int id;
     private String uuid;
     private String source;
-    private String sender;
-    private String receiver;
+    private Person sender;
+    private Person receiver;
     private String subject;
     private String body;
     private String senderDate;
     private String senderTime;
     private Boolean voided;
 
-    public Message(int id,String uuid, String source, String sender, String receiver, String subject, String body, String senderDate, String senderTime) {
+    public Message(int id, String uuid, String source, Person sender, Person receiver, String subject, String body, String senderDate, String senderTime) {
         this.id = id;
         this.uuid = uuid;
         this.source = source;

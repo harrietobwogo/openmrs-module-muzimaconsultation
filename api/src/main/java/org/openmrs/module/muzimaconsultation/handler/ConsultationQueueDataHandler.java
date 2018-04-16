@@ -46,11 +46,7 @@ import java.io.InputStream;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 /**
  */
@@ -90,7 +86,7 @@ public class ConsultationQueueDataHandler implements QueueDataHandler {
                             role = Context.getUserService().getRole(recipientParts[0]);
                         }
                     }
-                    generateNotification(sourceUuid, encounter, recipient, role);
+                   // generateNotification(sourceUuid, encounter, recipient, role);
                 } catch (Exception e) {
                     if (!e.getClass().equals(QueueProcessorException.class)) {
                         String reason = "Unable to generate notification information. Rolling back encounter.";
@@ -138,19 +134,22 @@ public class ConsultationQueueDataHandler implements QueueDataHandler {
         }
     }
 
-    private void generateNotification(final String sourceUuid, final Encounter encounter, final Person recipient, final Role role) {
-        Person sender = encounter.getProvidersByRole(role);
+    private void generateNotification(final String sourceUuid, final Encounter encounter, final Person recipient, final EncounterRole role) {
+        Set<Provider> providerSet = encounter.getProvidersByRole(role);
+        List<Provider> providerList = new ArrayList<Provider>();
+        providerList.addAll(providerSet);
+        Provider provider = providerList.get(0);
         NotificationData notificationData = new NotificationData();
-        notificationData.setRole(role);
+        notificationData.setRole(null);
 
         Patient patient = encounter.getPatient();
         String patientName = patient.getPersonName().getFullName();
-        String senderName = sender.getPersonName().getFullName();
+        String senderName = provider.getPerson().getPersonName().getFullName();
         String recipientName = "User";
         if (recipient != null) {
             recipientName = recipient.getPersonName().getFullName();
         } else if (role != null) {
-            recipientName = role.getRole();
+           // recipientName = provider.getRole();
         }
         String subject = "New Consultation on " + patientName + " by " + senderName;
         notificationData.setSubject(subject);
@@ -164,7 +163,7 @@ public class ConsultationQueueDataHandler implements QueueDataHandler {
         );
         notificationData.setStatus("incoming");
         notificationData.setSource(sourceUuid);
-        notificationData.setSender(sender);
+        notificationData.setSender(provider.getPerson());
         notificationData.setReceiver(recipient);
         Context.getService(DataService.class).saveNotificationData(notificationData);
     }
@@ -418,7 +417,7 @@ public class ConsultationQueueDataHandler implements QueueDataHandler {
             queueProcessorException.addException(new Exception("Unable to find user using the id: " + providerString));
         } else {
             encounter.setCreator(user);
-            encounter.setProvider(user);
+//            encounter.setProvider(role,user);
         }
 
         String locationString = JsonUtils.readAsString(encounterPayload, "$['encounter']['encounter.location_id']");
