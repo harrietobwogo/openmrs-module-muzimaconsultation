@@ -29,14 +29,13 @@ public class MessagesController {
         DataService dataService = Context.getService(DataService.class);
         List<MessageData> messageDataList = new ArrayList<>();
         List<Object> objects = new ArrayList<>();
-        MessageDataConverter messageDataConverter = new MessageDataConverter();
 
         messageDataList = dataService.getMessageDataBySender(sender);
         int pages = (messageDataList.size()) + pageSize - 1 / pageSize;
 
 
         for (MessageData messageData : messageDataList) {
-            objects.add(messageDataConverter.convert(messageData));
+            objects.add(MessageDataConverter.convert(messageData));
         }
 
         Map<String, Object> response = new HashMap<>();
@@ -54,13 +53,12 @@ public class MessagesController {
         DataService dataService = Context.getService(DataService.class);
         List<MessageData> messageDataList = new ArrayList<>();
         List<Object> objects = new ArrayList<>();
-        MessageDataConverter dataConverter = new MessageDataConverter();
 
         messageDataList = dataService.getMessageDataByReceiver(receiver);
         int pages = (messageDataList.size()) + pageSize - 1 / pageNumber;
 
         for (MessageData messageData : messageDataList) {
-            objects.add(dataConverter.convert(messageData));
+            objects.add(MessageDataConverter.convert(messageData));
         }
 
         Map<String,Object> response = new HashMap<>();

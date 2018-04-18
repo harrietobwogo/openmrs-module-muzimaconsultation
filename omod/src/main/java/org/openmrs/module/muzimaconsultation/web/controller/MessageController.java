@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-@RequestMapping("module/muzimaconsulation/message")
+@RequestMapping("module/muzimaconsulation/message.json")
 public class MessageController {
 
     Logger logger = LoggerFactory.getLogger(this.getClass().getSimpleName());
@@ -28,10 +28,12 @@ public class MessageController {
     @RequestMapping(method = RequestMethod.GET)
     @ResponseBody
     public Map<String,Object> getMessagesByUuid(final @RequestParam(required = true) String uuid){
-        DataService dataService = Context.getService(DataService.class);
-        MessageData messageData = dataService.getMessageDataByUuid(uuid);
-        MessageDataConverter messageDataConverter = new MessageDataConverter();
-        return messageDataConverter.convert(messageData);
+        if (Context.isAuthenticated()) {
+            DataService dataService = Context.getService(DataService.class);
+            MessageData messageData = dataService.getMessageDataByUuid(uuid);
+            MessageDataConverter messageDataConverter = new MessageDataConverter();
+            return messageDataConverter.convert(messageData);
+        } else {return new HashMap<>();}
     }
 
     @RequestMapping(method = RequestMethod.GET)
@@ -39,8 +41,7 @@ public class MessageController {
     public Map<String,Object> getMessageDataById(final @RequestParam(required = true) Integer id){
         DataService dataService = Context.getService(DataService.class);
         MessageData messageData = dataService.getMessageDataById(id);
-        MessageDataConverter messageDataConverter = new MessageDataConverter();
-        return messageDataConverter.convert(messageData);
+        return MessageDataConverter.convert(messageData);
     }
 
     @RequestMapping(method = RequestMethod.POST)

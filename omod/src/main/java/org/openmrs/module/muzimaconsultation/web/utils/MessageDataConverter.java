@@ -8,7 +8,7 @@ import java.util.Map;
 
 public class MessageDataConverter {
 
-    public Map<String,Object> convert(final MessageData messageData){
+    public static Map<String,Object> convert(final MessageData messageData){
         Map<String,Object> converted = new HashMap<String, Object>();
         if (messageData!=null){
             converted.put("uuid",messageData.getUuid());

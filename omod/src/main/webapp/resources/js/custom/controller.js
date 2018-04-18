@@ -17,6 +17,7 @@ function CreateConsultationCtrl($scope, $location, $person, $notification, $pati
 
     console.log("search patients");
     console.log($scope.patient);
+
     $patient.getPatients($scope.patient).
         then(function (response) {
         console.log("response.data");
