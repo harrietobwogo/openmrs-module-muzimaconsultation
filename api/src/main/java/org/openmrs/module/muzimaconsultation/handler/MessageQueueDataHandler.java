@@ -37,7 +37,6 @@ public class MessageQueueDataHandler implements QueueDataHandler {
 
         if (validate(queueData)){
             Context.getEncounterService().saveEncounter(encounter);
-
         }
     }
 

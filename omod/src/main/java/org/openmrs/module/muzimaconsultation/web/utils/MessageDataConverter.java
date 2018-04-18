@@ -1,6 +1,7 @@
 package org.openmrs.module.muzimaconsultation.web.utils;
 
 import org.openmrs.Person;
+import org.openmrs.module.muzima.model.MessageData;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -11,10 +12,10 @@ public class MessageDataConverter {
         Map<String,Object> converted = new HashMap<String, Object>();
         if (messageData!=null){
             converted.put("uuid",messageData.getUuid());
-            converted.put("subject",messageData.getUbject());
+            converted.put("subject",messageData.getSubject());
             converted.put("body",messageData.getBody());
-            converted.put("sendDate",messageData.getSendDate());
-            converted.put("sendTime",messageData.getSendTime());
+            converted.put("sendDate",messageData.getSenderDate());
+            converted.put("sendTime",messageData.getSenderTime());
             converted.put("voided",messageData.getVoided());
 
             Map<String,Object> senderMap = new HashMap<String, Object>();

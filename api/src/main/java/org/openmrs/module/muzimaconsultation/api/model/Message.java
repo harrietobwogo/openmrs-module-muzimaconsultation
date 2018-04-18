@@ -1,11 +1,13 @@
 package org.openmrs.module.muzimaconsultation.api.model;
 
 import org.openmrs.BaseOpenmrsData;
+import org.openmrs.BaseOpenmrsMetadata;
 import org.openmrs.Person;
+import org.openmrs.module.muzima.model.Data;
 
 import java.io.Serializable;
 
-public class Message extends BaseOpenmrsData implements Serializable {
+public class Message extends BaseOpenmrsData implements Serializable,Data {
 
     private int id;
     private String uuid;
@@ -16,7 +18,7 @@ public class Message extends BaseOpenmrsData implements Serializable {
     private String body;
     private String senderDate;
     private String senderTime;
-    private Boolean voided;
+    private String payload;
 
     public Message(int id, String uuid, String source, Person sender, Person receiver, String subject, String body, String senderDate, String senderTime) {
         this.id = id;
@@ -28,6 +30,11 @@ public class Message extends BaseOpenmrsData implements Serializable {
         this.body = body;
         this.senderDate = senderDate;
         this.senderTime = senderTime;
+    }
+
+
+    public void setPayload(String payload) {
+        this.payload = payload;
     }
 
     @Override
@@ -56,19 +63,19 @@ public class Message extends BaseOpenmrsData implements Serializable {
         this.source = source;
     }
 
-    public String getSender() {
+    public Person getSender() {
         return sender;
     }
 
-    public void setSender(String sender) {
+    public void setSender(Person sender) {
         this.sender = sender;
     }
 
-    public String getReceiver() {
+    public Person getReceiver() {
         return receiver;
     }
 
-    public void setReceiver(String receiver) {
+    public void setReceiver(Person receiver) {
         this.receiver = receiver;
     }
 
@@ -120,12 +127,7 @@ public class Message extends BaseOpenmrsData implements Serializable {
     }
 
     @Override
-    public Boolean getVoided() {
-        return voided;
-    }
-
-    @Override
-    public void setVoided(Boolean voided) {
-        this.voided = voided;
+    public String getPayload() {
+        return payload;
     }
 }
